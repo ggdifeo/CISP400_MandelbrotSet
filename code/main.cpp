@@ -105,15 +105,14 @@ int main() {
         {
 
         }
-    }
-    
-    //updates the scene segment
-    complexPlane.updateRender();
-    complexPlane.loadText();
+        //updates the scene segment
+        complexPlane.updateRender();
+        complexPlane.loadText();
 
-    //draws the scene segment 
-    window.clear();
-    complexPlane.draw(window);
-    //may need to be moved up a bracket to run
-    window.display();
+        //draws the scene segment 
+        window.clear();
+        complexPlane.draw(window);
+        //may need to be moved up a bracket to run
+        window.display();
+        }
 }
