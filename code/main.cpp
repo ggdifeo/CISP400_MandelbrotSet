@@ -3,6 +3,7 @@
 // Headers 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Window/VideoMode.hpp>
 #include <iostream>
 #include <sstream>
 #include <vector>
