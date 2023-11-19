@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "ComplexPlane.h"
+//#include "ComplexPlane.h"
 
 //Namespace Declarations
 using namespace sf;
@@ -18,12 +18,32 @@ int main() {
     //grabs the desktop resolution
     VideoMode desktop = VideoMode::getDesktopMode();
 
+ 
     //Divides the screen's resolution by 2 to scale down the screen
-    unsigned int screenWidth = desktop.width / 2;
-    unsigned int screenHeight = desktop.height / 2;
+    unsigned int pixelWidth = desktop.width / 2;
+    unsigned int pixelHeight = desktop.height / 2;
 
     //Creates the window 
-    RenderWindow window(VideoMode(screenWidth, screenHeight), "Mandlebrot Set", Style::Default);
+    RenderWindow window(VideoMode(pixelWidth, pixelHeight), "Mandlebrot Set", Style::Default);
+
+    //ComplexPlane complexPlane(pixelWidth, pixelHeight);
+
+    // Font for Chaos Game
+    Font font;
+    if (!font.loadFromFile("YatraOne.ttf")) 
+    {
+        // Displays message to user if font doesn't load
+        cout << "Error loading font!" << endl;
+        // returns error and exits program
+        return -1;
+    }
+
+    Text text;
+
+    text.setFont(font);
+    text.setCharacterSize(60); //Sets text size
+    text.setFillColor(Color::White); //Sets text color
+    text.setPosition(10, 10); //Positions text
 
     while (window.isOpen()) 
     {
@@ -41,6 +61,9 @@ int main() {
 		    {
 			    window.close();
 		    }
+
+            text.setString("Hello World!");
+            window.draw(text);
         }
     }
     window.display();
