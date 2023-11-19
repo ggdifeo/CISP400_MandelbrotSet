@@ -26,7 +26,7 @@ int main() {
     //Creates the window 
     RenderWindow window(VideoMode(pixelWidth, pixelHeight), "Mandlebrot Set", Style::Default);
 
-    //ComplexPlane complexPlane(pixelWidth, pixelHeight);
+    ComplexPlane complexPlane(pixelWidth, pixelHeight);
 
     // Font for Chaos Game
     Font font;
@@ -41,13 +41,18 @@ int main() {
     Text text;
 
     text.setFont(font);
-    text.setCharacterSize(60); //Sets text size
+    text.setCharacterSize(40); //Sets text size
     text.setFillColor(Color::White); //Sets text color
     text.setPosition(10, 10); //Positions text
+
+    //boolean for CALCULATING
+    bool CALCULATING = false;
 
     while (window.isOpen()) 
     {
         Event event;
+
+        window.clear();
 
         while (window.pollEvent(event))
         {
@@ -62,10 +67,53 @@ int main() {
 			    window.close();
 		    }
 
-            text.setString("Hello World!");
-            window.draw(text);
+            if (event.type == Event::MouseButtonPressed)
+            {
+                Vector2i mousePos = Mouse::getPosition(window);
+
+                if (event.mouseButton.button == Mouse::Right) 
+                {
+                    //right click to zoom out
+                    //calls the setCenter on the ComplexPlane object from mouse clicked position
+                    //sets CALCULATING to true
+                    complexPlane.setCenter(mousePos.x, mousePos.y);
+                    complexPlane.zoomOut();
+                    CALCULATING = true;
+                }
+                else if (event.mouseButton.button == Mouse::Left)
+                {
+                    //left click to zoom in
+                    //calls setCenter on the ComplexPlane object from mouse clicked postion
+                    //sets CALCULATING to true
+                    complexPlane.setCenter(mousePos.x, mousePos.y);
+                    complexPlane.zoomIn();
+                    CALCULATING = true;
+                }
+            }
+            else if (event.type == Event::MouseMoved)
+            {
+                //mouse moved event here
+                //calls setMouseLocation on the ComplexPlane object and stores mouse coords
+                complexPlane.setMouseLocation(event.mouseMove.x, event.mouseMove.y);
+            }
+
+        }
+        text.setString("Hello World!");
+        window.draw(text);
+
+        if (CALCULATING)
+        {
+
         }
     }
-    window.display();
+    
+    //updates the scene segment
+    complexPlane.updateRender();
+    complexPlane.loadText();
 
+    //draws the scene segment 
+    window.clear();
+    complexPlane.draw(window);
+    //may need to be moved up a bracket to run
+    window.display();
 }
