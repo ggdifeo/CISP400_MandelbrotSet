@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "ComplexPlane.h"
 
 //Namespace Declarations
 using namespace sf;
@@ -14,14 +15,14 @@ using namespace std;
 
 int main() {
     //grabs the desktop resolution
-    VideoMode desktopMode = VideoMode::getDesktopMode();
+    VideoMode desktop = VideoMode::getDesktopMode();
 
     //Divides the screen's resolution by 2 to scale down the screen
-    unsigned int screenWidth = desktopMode.width / 2;
-    unsigned int screenHeight = desktopMode.height / 2;
+    unsigned int screenWidth = desktop.width / 2;
+    unsigned int screenHeight = desktop.height / 2;
 
     //Creates the window 
-    RenderWindow window(VideoMode(screenWidth, screenHeight), "Mandlebrot Set");
+    RenderWindow window(VideoMode(screenWidth, screenHeight), "Mandlebrot Set", Style::Default);
 
     while (window.isOpen()) 
     {
