@@ -42,7 +42,7 @@ int main() {
 
     text.setFont(font);
     text.setCharacterSize(40); //Sets text size
-    text.setFillColor(Color::White); //Sets text color
+    text.setFillColor(Color(253, 226, 167)); //Sets text color
     text.setPosition(10, 10); //Positions text
 
     //boolean for CALCULATING
