@@ -7,7 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-//#include "ComplexPlane.h"
+#include "ComplexPlane.h"
 
 //Namespace Declarations
 using namespace sf;
