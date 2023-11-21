@@ -35,7 +35,7 @@ class ComplexPlane : public Drawable
         virtual void draw(RenderTarget& target, RenderStates states) const;
         void zoomIn();
         void zoomOut();
-        void setcenter(Vector2i mousePixel);
+        void setCenter(Vector2i mousePixel);
         void setMouseLocation(Vector2i mousePixel);
         void loadText(Text& text);
         void updateRender();
