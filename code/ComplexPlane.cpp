@@ -1,5 +1,6 @@
 #include "ComplexPlane.h"
-#include <cmath> // for pow function
+#include <cmath> // for pow function and abs
+#include <complex> // for the countIterations function
 #include <sstream> 
 #include <iomanip> //to set precision for coords ouput
 
@@ -135,5 +136,60 @@ void ComplexPlane::loadText(Text& text)
      text.setString(ss.str());
 }
 
+size_t ComplexPlane::countIterations(sf::Vector2f coord)
+{
+  const unsigned int MAX_ITER = 64; // can be adjusted
+  const double ESCAPE_RADIUS = 2.0; // can be adjusted 
+
+  // Converts coordinate on screen to a complex number
+  std::complex<double> c(coord.x, coord.y);
+
+  // initializes variables
+  std::complex<double> z = 0.0;
+  size_t iterations = 0;
+
+  while (iterations < MAX_ITER)
+  {
+    z = z * z + c;
+
+    // Checks if the magnitude of z is more than the escape radius
+    if (std::abs(z) > ESCAPE_RADIUS)
+    {
+      break;
+    }
+
+    iterations++;
+  }
+
+  return iterations;
+}
+
+void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
+{
+  const size_t MAX_ITER = 64; // can be adjusted
+  const Uint8 SET_R = 47; //color codes to set the mandlebrot set's color
+  const Uint8 SET_G = 39;
+  const Uint8 SET_B = 51;
+
+  // Sets default color to black when max iteration count is reached
+  if (count == MAX_ITER)
+  {
+    r = SET_R;
+    g = SET_G;
+    b = SET_B;
+  } 
+  else 
+  {
+    // defines the color regions
+    const size_t regionSize = MAX_ITER / 5;
+    size_t region = count / regionSize;
+  }
+
+  // Calculates color depending on region, used switch case to keep options seperate
+  switch (region)
+  {
+    case 0: 
+  }
+}
 
 
