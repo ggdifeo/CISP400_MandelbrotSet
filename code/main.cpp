@@ -69,14 +69,14 @@ int main() {
 
             if (event.type == Event::MouseButtonPressed)
             {
-                Vector2i mousePos = Mouse::getPosition(window);
+                Vector2i mousePixel = Mouse::getPosition(window);
 
                 if (event.mouseButton.button == Mouse::Right) 
                 {
                     //right click to zoom out
                     //calls the setCenter on the ComplexPlane object from mouse clicked position
                     //sets CALCULATING to true
-                    complexPlane.setCenter(mousePos.x, mousePos.y);
+                    complexPlane.setCenter(mousePixel.x, mousePixel.y);
                     complexPlane.zoomOut();
                     CALCULATING = true;
                 }
@@ -85,7 +85,7 @@ int main() {
                     //left click to zoom in
                     //calls setCenter on the ComplexPlane object from mouse clicked postion
                     //sets CALCULATING to true
-                    complexPlane.setCenter(mousePos.x, mousePos.y);
+                    complexPlane.setCenter(mousePixel.x, mousePixel.y);
                     complexPlane.zoomIn();
                     CALCULATING = true;
                 }
@@ -108,9 +108,6 @@ int main() {
 
             CALCULATING = false; // sets state back to DISPLAYING once calculations are done
         }
-        //updates the scene segment
-        complexPlane.updateRender();
-        complexPlane.loadText();
 
         //draws the scene segment 
         window.clear();
