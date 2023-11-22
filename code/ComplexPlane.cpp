@@ -10,6 +10,7 @@
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
 {
   m_pixel_size.x = pixelWidth;
+  m_pixel_size.y = pixelHeight;
 
   m_plane_center = {0, 0};
   m_plane_size = {BASE_WIDTH, BASE_HEIGHT * m_aspectRatio};

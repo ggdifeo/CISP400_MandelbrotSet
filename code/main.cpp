@@ -107,13 +107,10 @@ int main() {
             CALCULATING = false; // sets state back to DISPLAYING once calculations are done
         }
 
-        //draws the scene segment 
-        window.clear();
         complexPlane.draw(window, RenderStates::Default);
         //may need to be moved up a bracket to run
         window.draw(text);
         window.display();
-
     }
 
     return 0;
