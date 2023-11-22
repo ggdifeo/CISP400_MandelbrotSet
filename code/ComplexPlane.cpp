@@ -39,7 +39,7 @@ void ComplexPlane::updateRender()
               // sets the position varaible from VertexArray to align with screen coords j, i
               m_vArray[j + i * m_pixel_size.x].position = { (float)j, (float)i }; 
 
-              // findssf::Vector2f coordinate at (j, i)
+              // finds sf::Vector2f coordinate at (j, i)
              sf::Vector2f coord = mapPixelToCoords(sf::Vector2i(j, i)); 
 
               // calls ComplexPlane::countIterations
@@ -62,7 +62,6 @@ void ComplexPlane::updateRender()
 
 void ComplexPlane::zoomIn()
 {
-  // did ++ first so that if it will return and iterate the same number (good practice i think?)
   ++m_zoomCount; 
 
   // adds new variables and calculates the new sizes based on zoom level
@@ -79,7 +78,6 @@ void ComplexPlane::zoomIn()
 
 void ComplexPlane::zoomOut()
 {
-  // did -- first so that if it will return and iterate the same number (good practice i think?)
   --m_zoomCount; 
 
   // adds new variables and calculates the new sizes based on zoom level
@@ -96,7 +94,7 @@ void ComplexPlane::zoomOut()
 
 void ComplexPlane::setCenter(sf::Vector2i mousePixel)
 {
-  // uses ComplexPlane::mapPixelToCoords to find thesf::Vector2f coord
+  // uses ComplexPlane::mapPixelToCoords to find the sf::Vector2f coord
  sf::Vector2f coord = mapPixelToCoords(sf::Vector2i(mousePixel.x, mousePixel.y));
 
   // assigns m_plane_center with that coord 
@@ -108,7 +106,7 @@ void ComplexPlane::setCenter(sf::Vector2i mousePixel)
 
 void ComplexPlane::setMouseLocation(sf::Vector2i mousePixel)
 {
-  // uses ComplexPlane::mapPixelToCoords to find thesf::Vector2f coord
+  // uses ComplexPlane::mapPixelToCoords to find the sf::Vector2f coord
   sf::Vector2f coord = mapPixelToCoords(mousePixel);
 
   // assigns m_mouseLocation with that coord
