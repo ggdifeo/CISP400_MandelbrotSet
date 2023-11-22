@@ -2,7 +2,10 @@
 #include <cmath> // for pow function and abs
 #include <complex> // for the countIterations function
 #include <sstream> 
-#include <iomanip> //to set precision for coords ouput
+#include <iomanip> //to set precision for coords output
+
+using namespace sf;
+using namespace std;
 
 //did we wanna use this for the cpp or just main? it says its bad pratice on big projects and std: is easier to debug if we have issues
 //using namespace std;
@@ -171,7 +174,7 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
   const Uint8 SET_G = 39;
   const Uint8 SET_B = 51;
 
-  // Sets default color to black when max iteration count is reached
+  // sets default color to black when max iteration count is reached
   if (count == MAX_ITER)
   {
     r = SET_R;
@@ -183,13 +186,51 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
     // defines the color regions
     const size_t regionSize = MAX_ITER / 5;
     size_t region = count / regionSize;
-  }
 
-  // Calculates color depending on region, used switch case to keep options seperate
-  switch (region)
-  {
-    case 0: 
+  // calculates color depending on region, used switch case to keep options seperate
+    switch (region)
+    {
+      case 0: // adds gradient effect to colors
+        r = Uint8(255 * (count % regionSize) / regionSize);
+        g = Uint8(255 * (count % regionSize) / regionSize);
+        b = Uint8(255 * (count % regionSize) / regionSize);
+        break;
+      case 1: // turqoise
+       r = 160;
+        g = 95;
+        b = 110;
+        break;
+      case 2: // green
+        r = 80;
+        g = 125;
+        b = 120;
+        break;
+      case 3: // gold
+        r = 183;
+        g = 165;
+        b = 113;
+        break;
+      case 4: // red
+        r = 87;
+        g = 102;
+        b = 135;
+        break;
+      default:
+        r = g = b = SET_B // defaults to set color just in case if count iterations is too high
+        break;
+    }
   }
+}
+
+sf::Vector2f ComplexPlane::mapPixelToCoords(sf::Vector2i mousePixel)
+{
+  // calculates the mapping for x-coord
+  float mapX = ((mousePixel.x - 0) / float(m_pixelWidth)) * m_plane_size.x + (m_plane_center.x - m_plane_size.x / 2.0);
+
+  // calculates the mapping for y-coord
+  float mapY = ((mousePixel.y - m_pixelHeight) / float(0 - m_pixelHeight)) * m_plane_size.y + (m_plane_center.y - m_plane_size.y / 2.0);
+
+  return sf::Vector2f(mapX, mapY);
 }
 
 
