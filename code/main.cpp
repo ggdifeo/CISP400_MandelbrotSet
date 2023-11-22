@@ -8,6 +8,8 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
+#include <thread>
+#include <mutex>
 #include "ComplexPlane.h"
 
 //Namespace Declarations
@@ -59,12 +61,20 @@ int main() {
     Text text;
 
     text.setFont(font);
-    text.setCharacterSize(30); //Sets text size
+    text.setCharacterSize(20); //Sets text size
     text.setFillColor(Color(253, 226, 167)); //Sets text color
     text.setPosition(10, 10); //Positions text
 
     //boolean for CALCULATING
     bool CALCULATING = true;
+
+    // thread variable for the updateRender (not iterations yet)
+    thread render_thread1;
+    //thread render_thread2;
+    //thread render_thread3;
+
+    // thread for interations
+    thread iterations_thread;
 
     while (window.isOpen()) 
     {
@@ -119,12 +129,36 @@ int main() {
 
         if (CALCULATING)
         {
-            complexPlane.updateRender(); // performs the mandlebrot set calculations
-            complexPlane.loadText(text); // pulls up the text info
+            //complexPlane.updateRender(); // performs the mandlebrot set calculations
+            // I am going to thread this as well, to help render it faster because the speed is crazy slow 
+            //thread render_thread(&ComplexPlane::updateRender, &complexPlane);
+            //The professors link is for SFML threading documentation, but take note this is a C++ library
+            //joinable is basically like can they be threaded together? Like 1 + 1 = 2
+            
+            // join these threads together
+            if (render_thread1.joinable())
+            {
+                render_thread1.join();
+            }
+            /*else if (render_thread2.joinable())
+            {
+                //render_thread2.join();
+            }
+            else if (render_thread3.joinable())
+            {
+                //render_thread3.join();
+            }
+                */
+            // threading this to update and render a bit faster 
+            render_thread1 = thread(&ComplexPlane::updateRender, &complexPlane);
+            //render_thread2 = thread(&ComplexPlane::updateRender, &testY);
+            //render_thread3 = thread(&ComplexPlane::updateRender, &testX);
+            
+            //render_thread.join();
 
             CALCULATING = false; // sets state back to DISPLAYING once calculations are done
         }
-
+        complexPlane.loadText(text); // pulls up the text info
         complexPlane.draw(window, RenderStates::Default);
         //may need to be moved up a bracket to run
         window.draw(text);
