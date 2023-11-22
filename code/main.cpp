@@ -103,7 +103,10 @@ int main() {
 
         if (CALCULATING)
         {
+            complexPlane.updateRender(); // performs the mandlebrot set calculations
+            complexPlane.loadText(text); // pulls up the text info
 
+            CALCULATING = false; // sets state back to DISPLAYING once calculations are done
         }
         //updates the scene segment
         complexPlane.updateRender();

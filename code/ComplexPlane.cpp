@@ -4,37 +4,35 @@
 #include <sstream> 
 #include <iomanip> //to set precision for coords output
 
-using namespace sf;
-using namespace std;
-
 //did we wanna use this for the cpp or just main? it says its bad pratice on big projects and std: is easier to debug if we have issues
 //using namespace std;
 
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
 {
+  m_pixel_size.x = pixelWidth;
+  m_pixel_size.y = pixelHeight;
   m_pixelWidth = pixelWidth;
-  m_pixelHeight = pixelHeight;
 
   m_plane_center = {0, 0};
   m_plane_size = {BASE_WIDTH, BASE_HEIGHT * m_aspectRatio};
   m_zoomCount = 0;
-  m_State = STATE::CALCULATING;
+  m_state = State::CALCULATING;
 
   m_aspectRatio = pixelHeight / float(pixelWidth);
 
-  m_vArray.setPrimitiveType(Points);
+  m_vArray.setPrimitiveType(sf::Points);
   m_vArray.resize(pixelWidth * pixelHeight);
 
 }
 
-void ComplexPlane::draw(RenderTarget& target, RenderStates states) const
+void ComplexPlane::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     target.draw(m_vArray);
 }
 
-void complexPlane::updateRender()
+void ComplexPlane::updateRender()
 {
-    if (m_State == STATE::CALCULATING)
+    if (m_state == State::CALCULATING)
     {
       // double for loop to iteratre through x & y coords, did y first for improved performance 
       for (int i = 0; i < pixelHeight; ++i) 
@@ -42,13 +40,13 @@ void complexPlane::updateRender()
           for (int j = 0; j < pixelWidth; ++j) 
           {
               // sets the position varaible from VertexArray to align with screen coords j, i
-              vArray[j + i * pixelWidth].position = { (float)j, (float)i }; 
+              m_vArray[j + i * pixelWidth].position = { (float)j, (float)i }; 
 
-              // finds Vector2f coordinate at (j, i)
-              Vector2f coord = mapPixelToCoords(j, i); 
+              // findssf::Vector2f coordinate at (j, i)
+             sf::Vector2f coord = mapPixelToCoords(sf::Vector2i(j, i)); 
 
               // calls ComplexPlane::countIterations
-              int iterations = countIterations(coords); 
+              int iterations = countIterations(coord); 
 
               // Declares RGB variables
               Uint8 r, g, b; 
@@ -57,11 +55,11 @@ void complexPlane::updateRender()
               iterationsToRGB(iterations, r, g, b); 
 
               // sets color variable in VertexArray
-              vArray[j + i * pixelWidth].color = { r, g, b }; 
+              m_vArray[j + i * pixelWidth].color = { r, g, b }; 
           }
         }
         // sets state to DISPLAYING
-        m_State = STATE::DISPLAYING; 
+        m_state = State::DISPLAYING; 
     }
 }
 
@@ -72,14 +70,14 @@ void ComplexPlane::zoomIn()
 
   // adds new variables and calculates the new sizes based on zoom level
   double sizeX = BASE_WIDTH * std::pow(BASE_ZOOM, m_zoomCount);
-  double sizeY = BASEHEIGHT * m_aspectRatio * std::pow(BASE_ZOOM, m_zoomCount);
+  double sizeY = BASE_HEIGHT * m_aspectRatio * std::pow(BASE_ZOOM, m_zoomCount);
 
   // Assigns m_plane_size with the updated sizes
   m_plane_size.x = sizeX;
   m_plane_size.y = sizeY;
 
   //sets state to CALCULATING
-  m_State = STATE::CALCULATING;
+  m_state = State::CALCULATING;
 }
 
 void ComplexPlane::zoomOut()
@@ -89,38 +87,38 @@ void ComplexPlane::zoomOut()
 
   // adds new variables and calculates the new sizes based on zoom level
   double sizeX = BASE_WIDTH * std::pow(BASE_ZOOM, m_zoomCount);
-  double sizeY = BASEHEIGHT * m_aspectRatio * std::pow(BASE_ZOOM, m_zoomCount);
+  double sizeY = BASE_HEIGHT * m_aspectRatio * std::pow(BASE_ZOOM, m_zoomCount);
 
   // assigns m_plane_size with the updated sizes
   m_plane_size.x = sizeX;
   m_plane_size.y = sizeY;
 
   //sets state to CALCULATING
-  m_State = STATE::CALCULATING;
+  m_state = State::CALCULATING;
 }
 
-void ComplexPlane::setCenter(Vector2i mousePixel)
+void ComplexPlane::setCenter(sf::Vector2i mousePixel)
 {
-  // uses ComplexPlane::mapPixelToCoords to find the Vector2f coord
-  Vector2f coord = mapPixelToCoords(mousePixel.x, mousePixel.y);
+  // uses ComplexPlane::mapPixelToCoords to find thesf::Vector2f coord
+ sf::Vector2f coord = mapPixelToCoords(mousePixel.x, mousePixel.y);
 
   // assigns m_plane_center with that coord 
   m_plane_center = coord; 
 
   //sets State to CALCULATING
-  m_State = STATE::CALCULATING;
+  m_state = State::CALCULATING;
 }
 
-void ComplexPlane::setMouseLocation(Vector2i mousePixel)
+void ComplexPlane::setMouseLocation(sf::Vector2i mousePixel)
 {
-  // uses ComplexPlane::mapPixelToCoords to find the Vector2f coord
-  Vector2f coord = mapPixelToCoords(mousePixel.x, mousePixel.y);
+  // uses ComplexPlane::mapPixelToCoords to find thesf::Vector2f coord
+  sf::Vector2f coord = mapPixelToCoords(mousePixel);
 
   // assigns m_mouseLocation with that coord
   m_mouseLocation = coord;
 }
 
-void ComplexPlane::loadText(Text& text)
+void ComplexPlane::loadText(sf::Text& text)
 {
   // creates stringstream for text displayed in top left corner 
   std::stringstream ss;
@@ -216,7 +214,7 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
         b = 135;
         break;
       default:
-        r = g = b = SET_B // defaults to set color just in case if count iterations is too high
+        r = g = b = SET_B; // defaults to set color just in case if count iterations is too high
         break;
     }
   }
