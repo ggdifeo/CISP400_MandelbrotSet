@@ -4,9 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <SFML/System/Clock.hpp>
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <cmath>
 #include "ComplexPlane.h"
 
 //Namespace Declarations
@@ -48,11 +50,22 @@ int main() {
     //boolean for CALCULATING
     bool CALCULATING = true;
 
+    // for wave animation 
+    Clock clock;
+
     while (window.isOpen()) 
     {
+        clock.restart();
+
         Event event;
 
         window.clear();
+
+        // get the time that's elapsed for the animation
+        float time = clock.getElapsedTime().asSeconds();
+
+        // modify the complex plane's parameters on the duration
+        complexPlane.setCenter(Vector2i(pixelWidth / 2 + int(100 * sin(time)), pixelHeight / 2 * int (50 * cos(time))));
 
         while (window.pollEvent(event))
         {

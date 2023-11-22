@@ -3,6 +3,8 @@
 #include <complex> // for the countIterations function
 #include <sstream> 
 #include <iomanip> //to set precision for coords output
+#include <SFML/Graphics/Color.hpp>
+
 
 //did we wanna use this for the cpp or just main? it says its bad pratice on big projects and std: is easier to debug if we have issues
 //using namespace std;
@@ -224,6 +226,14 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
         r = g = b = SET_B; // defaults to set color just in case if count iterations is too high
         break;
     }
+
+    // this will create a gradient effect for each region 
+    float gradientEffect = float(count % regionSize) / regionSize;
+
+    // using linear interpolation (a,b,t)=(1−t)⋅a+t⋅b) between each region color and target color for blending in that gradient effect (a is starting value, b is value that ends, t is the interpolation parameter)
+    r = Uint8((1 - gradientEffect) * r + gradientEffect * 255);
+    g = Uint8((1 - gradientEffect) * g + gradientEffect * 255);
+    b = Uint8((1 - gradientEffect) * b + gradientEffect * 255);
   }
 }
 
