@@ -45,9 +45,6 @@ int main() {
     text.setFillColor(Color(253, 226, 167)); //Sets text color
     text.setPosition(10, 10); //Positions text
 
-    //boolean for CALCULATING
-    bool CALCULATING = true;
-
     while (window.isOpen()) 
     {
         Event event;
@@ -78,7 +75,7 @@ int main() {
                     //sets CALCULATING to true
                     complexPlane.setCenter(Vector2i(mousePos.x, mousePos.y));
                     complexPlane.zoomOut();
-                    CALCULATING = true;
+                   
                 }
                 else if (event.mouseButton.button == Mouse::Left)
                 {
@@ -87,8 +84,10 @@ int main() {
                     //sets CALCULATING to true
                     complexPlane.setCenter(Vector2i(mousePos.x, mousePos.y));
                     complexPlane.zoomIn();
-                    CALCULATING = true;
+                   
                 }
+
+                complexPlane.m_state = ComplexPlane::State::CALCULATING;
             }
             else if (event.type == Event::MouseMoved)
             {
@@ -99,14 +98,13 @@ int main() {
 
         }
 
-        if (CALCULATING)
+        if (complexPlane.m_state == ComplexPlane::State::CALCULATING)
         {
             complexPlane.updateRender(); // performs the mandlebrot set calculations
             complexPlane.loadText(text); // pulls up the text info
 
-            CALCULATING = false; // sets state back to DISPLAYING once calculations are done
+            complexPlane.m_state = ComplexPlane::State::DISPLAYING; // sets state back to DISPLAYING once calculations are done
         }
-
 
         complexPlane.draw(window, RenderStates::Default);
         //may need to be moved up a bracket to run

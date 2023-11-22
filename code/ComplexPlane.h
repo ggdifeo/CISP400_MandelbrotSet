@@ -18,7 +18,6 @@ enum class State
     DISPLAYING
 };
 
-
 // Need to inherit from Drawable (like in the UML diagram I think)
 class ComplexPlane : public Drawable
 {

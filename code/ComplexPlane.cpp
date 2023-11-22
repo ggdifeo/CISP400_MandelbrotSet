@@ -71,6 +71,9 @@ void ComplexPlane::zoomIn()
   double sizeX = BASE_WIDTH * std::pow(BASE_ZOOM, m_zoomCount);
   double sizeY = BASE_HEIGHT * m_aspectRatio * std::pow(BASE_ZOOM, m_zoomCount);
 
+  //m_plane_center.x += (m_mouseLocation.x - m_plane_center.x) * (m_plane_size.x / sizeX);
+ // m_plane_center.y += (m_mouseLocation.y - m_plane_center.y) * (m_plane_size.y / sizeY);
+
   // Assigns m_plane_size with the updated sizes
   m_plane_size.x = sizeX;
   m_plane_size.y = sizeY;
@@ -87,6 +90,10 @@ void ComplexPlane::zoomOut()
   // adds new variables and calculates the new sizes based on zoom level
   double sizeX = BASE_WIDTH * std::pow(BASE_ZOOM, m_zoomCount);
   double sizeY = BASE_HEIGHT * m_aspectRatio * std::pow(BASE_ZOOM, m_zoomCount);
+
+
+  //m_plane_center.x += (m_mouseLocation.x - m_plane_center.x) * (m_plane_size.x / sizeX);
+  //m_plane_center.y += (m_mouseLocation.y - m_plane_center.y) * (m_plane_size.y / sizeY);
 
   // assigns m_plane_size with the updated sizes
   m_plane_size.x = sizeX;
@@ -193,7 +200,7 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
         b = Uint8(255 * (count % regionSize) / regionSize);
         break;
       case 1: // turqoise
-       r = 160;
+        r = 160;
         g = 95;
         b = 110;
         break;
