@@ -9,6 +9,9 @@
 
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
 {
+  //moved it to the top so it's initialized before it ends up being used
+  m_aspectRatio = pixelHeight / float(pixelWidth);
+
   m_pixel_size.x = pixelWidth;
   m_pixel_size.y = pixelHeight;
 
@@ -16,8 +19,6 @@ ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
   m_plane_size = {BASE_WIDTH, BASE_HEIGHT * m_aspectRatio};
   m_zoomCount = 0;
   m_state = State::CALCULATING;
-
-  m_aspectRatio = pixelHeight / float(pixelWidth);
 
   m_vArray.setPrimitiveType(sf::Points);
   m_vArray.resize(pixelWidth * pixelHeight);
