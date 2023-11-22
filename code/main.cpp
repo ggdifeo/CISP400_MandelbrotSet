@@ -40,6 +40,9 @@ int main() {
     //change the volume here
     music.setVolume(5);
 
+    // loops it after song is overv
+    music.setLoop(true);
+
     //plays the music
     music.play();
 
