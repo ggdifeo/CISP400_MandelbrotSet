@@ -4,10 +4,6 @@
 #include <sstream> 
 #include <iomanip> //to set precision for coords output
 
-
-//did we wanna use this for the cpp or just main? it says its bad pratice on big projects and std: is easier to debug if we have issues
-//using namespace std;
-
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
 {
   //moved it to the top so it's initialized before it ends up being used
@@ -73,9 +69,6 @@ void ComplexPlane::zoomIn()
   double sizeX = BASE_WIDTH * std::pow(BASE_ZOOM, m_zoomCount);
   double sizeY = BASE_HEIGHT * m_aspectRatio * std::pow(BASE_ZOOM, m_zoomCount);
 
-  //m_plane_center.x += (m_mouseLocation.x - m_plane_center.x) * (m_plane_size.x / sizeX);
- // m_plane_center.y += (m_mouseLocation.y - m_plane_center.y) * (m_plane_size.y / sizeY);
-
   // Assigns m_plane_size with the updated sizes
   m_plane_size.x = sizeX;
   m_plane_size.y = sizeY;
@@ -92,10 +85,6 @@ void ComplexPlane::zoomOut()
   // adds new variables and calculates the new sizes based on zoom level
   double sizeX = BASE_WIDTH * std::pow(BASE_ZOOM, m_zoomCount);
   double sizeY = BASE_HEIGHT * m_aspectRatio * std::pow(BASE_ZOOM, m_zoomCount);
-
-
-  //m_plane_center.x += (m_mouseLocation.x - m_plane_center.x) * (m_plane_size.x / sizeX);
-  //m_plane_center.y += (m_mouseLocation.y - m_plane_center.y) * (m_plane_size.y / sizeY);
 
   // assigns m_plane_size with the updated sizes
   m_plane_size.x = sizeX;
