@@ -37,7 +37,7 @@ class ComplexPlane : public Drawable
         void setCenter(Vector2i mousePixel);
         void setMouseLocation(Vector2i mousePixel);
         void loadText(Text& text);
-        void updateRender();
+        void updateRender(int pixelHeight);
 
     private:
         //Per the UML diargram these all have the "-" which would like mean private

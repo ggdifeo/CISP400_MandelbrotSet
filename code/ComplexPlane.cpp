@@ -27,7 +27,7 @@ void ComplexPlane::draw(sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(m_vArray);
 }
 
-void ComplexPlane::updateRender()
+void ComplexPlane::updateRender(int pixelHeight)
 {
     if (m_state == State::CALCULATING)
     {
@@ -135,7 +135,7 @@ void ComplexPlane::loadText(sf::Text& text)
 
 size_t ComplexPlane::countIterations(sf::Vector2f coord)
 {
-  const unsigned int MAX_ITER = 60; // can be adjusted
+  const unsigned int MAX_ITER = 90; // can be adjusted
   const double ESCAPE_RADIUS = 2.0; // can be adjusted 
 
   // Converts coordinate on screen to a complex number
@@ -163,7 +163,7 @@ size_t ComplexPlane::countIterations(sf::Vector2f coord)
 
 void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
 {
-  const size_t MAX_ITER = 60; // can be adjusted
+  const size_t MAX_ITER = 90; // can be adjusted
   const Uint8 SET_R = 47; //color codes to set the mandlebrot set's color
   const Uint8 SET_G = 39;
   const Uint8 SET_B = 51;

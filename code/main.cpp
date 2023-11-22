@@ -70,8 +70,9 @@ int main() {
 
     // thread variable for the updateRender (not iterations yet)
     thread render_thread1;
-    //thread render_thread2;
-    //thread render_thread3;
+    thread render_thread2;
+    thread render_thread3;
+    thread render_thread4;
 
     // thread for interations
     thread iterations_thread;
@@ -140,19 +141,25 @@ int main() {
             {
                 render_thread1.join();
             }
-            /*else if (render_thread2.joinable())
+            if (render_thread2.joinable())
             {
-                //render_thread2.join();
+                render_thread2.join();
             }
-            else if (render_thread3.joinable())
+            if (render_thread3.joinable())
             {
-                //render_thread3.join();
-            }
-                */
+                render_thread3.join();
+            } 
+            if (render_thread4.joinable())
+            {
+                render_thread4.join();
+            } 
+                
             // threading this to update and render a bit faster 
-            render_thread1 = thread(&ComplexPlane::updateRender, &complexPlane);
-            //render_thread2 = thread(&ComplexPlane::updateRender, &testY);
-            //render_thread3 = thread(&ComplexPlane::updateRender, &testX);
+            render_thread1 = thread(&ComplexPlane::updateRender, &complexPlane, 4);
+            render_thread2 = thread(&ComplexPlane::updateRender, &complexPlane, pixelHeight / 4);
+            render_thread3 = thread(&ComplexPlane::updateRender, &complexPlane, pixelHeight / 2);
+            render_thread4 = thread(&ComplexPlane::updateRender, &complexPlane, pixelHeight / 2);
+
             
             //render_thread.join();
 
