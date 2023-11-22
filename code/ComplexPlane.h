@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/VertexArray.hpp>
 #include <iostream>
+#include <mutex>
+#include <thread>
 
 using namespace sf;
 
@@ -37,13 +39,14 @@ class ComplexPlane : public Drawable
         void setCenter(Vector2i mousePixel);
         void setMouseLocation(Vector2i mousePixel);
         void loadText(Text& text);
-        void updateRender(int pixelHeight);
+        void updateRender(int a, int b);
+        size_t countIterations(Vector2f coord);
 
     private:
         //Per the UML diargram these all have the "-" which would like mean private
         // Gabe, let me know if these match up in your eyes
 
-        size_t countIterations(Vector2f coord);
+        
         void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
         Vector2f mapPixelToCoords(Vector2i mousePixel);
         VertexArray m_vArray;
@@ -54,6 +57,10 @@ class ComplexPlane : public Drawable
         Vector2f m_plane_size;
         int m_zoomCount;
         float m_aspectRatio;
+        // https://www.sfml-dev.org/tutorials/2.6/system-thread.php
+        Mutex thisMutex;
+        // do we need this? it runs fine without it but i needed to remane the mutex cuz it confused it with the actual <mutex>
+
 };
 
 #endif
