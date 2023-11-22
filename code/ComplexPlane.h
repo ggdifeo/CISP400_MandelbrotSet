@@ -44,7 +44,7 @@ class ComplexPlane : public Drawable
         //Per the UML diargram these all have the "-" which would like mean private
         // Gabe, let me know if these match up in your eyes
 
-        int countIterations(Vector2f coord);
+        size_t countIterations(Vector2f coord);
         void iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b);
         Vector2f mapPixelToCoords(Vector2i mousePixel);
         VertexArray m_vArray;

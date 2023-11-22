@@ -10,8 +10,6 @@
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight)
 {
   m_pixel_size.x = pixelWidth;
-  m_pixel_size.y = pixelHeight;
-  m_pixelWidth = pixelWidth;
 
   m_plane_center = {0, 0};
   m_plane_size = {BASE_WIDTH, BASE_HEIGHT * m_aspectRatio};
@@ -35,12 +33,12 @@ void ComplexPlane::updateRender()
     if (m_state == State::CALCULATING)
     {
       // double for loop to iteratre through x & y coords, did y first for improved performance 
-      for (int i = 0; i < pixelHeight; ++i) 
+      for (int i = 0; i < m_pixel_size.y; ++i) 
         {
-          for (int j = 0; j < pixelWidth; ++j) 
+          for (int j = 0; j < m_pixel_size.x; ++j) 
           {
               // sets the position varaible from VertexArray to align with screen coords j, i
-              m_vArray[j + i * pixelWidth].position = { (float)j, (float)i }; 
+              m_vArray[j + i * m_pixel_size.x].position = { (float)j, (float)i }; 
 
               // findssf::Vector2f coordinate at (j, i)
              sf::Vector2f coord = mapPixelToCoords(sf::Vector2i(j, i)); 
@@ -55,7 +53,7 @@ void ComplexPlane::updateRender()
               iterationsToRGB(iterations, r, g, b); 
 
               // sets color variable in VertexArray
-              m_vArray[j + i * pixelWidth].color = { r, g, b }; 
+              m_vArray[j + i * m_pixel_size.x].color = { r, g, b }; 
           }
         }
         // sets state to DISPLAYING
@@ -100,7 +98,7 @@ void ComplexPlane::zoomOut()
 void ComplexPlane::setCenter(sf::Vector2i mousePixel)
 {
   // uses ComplexPlane::mapPixelToCoords to find thesf::Vector2f coord
- sf::Vector2f coord = mapPixelToCoords(mousePixel.x, mousePixel.y);
+ sf::Vector2f coord = mapPixelToCoords(sf::Vector2i(mousePixel.x, mousePixel.y));
 
   // assigns m_plane_center with that coord 
   m_plane_center = coord; 
@@ -223,10 +221,10 @@ void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b)
 sf::Vector2f ComplexPlane::mapPixelToCoords(sf::Vector2i mousePixel)
 {
   // calculates the mapping for x-coord
-  float mapX = ((mousePixel.x - 0) / float(m_pixelWidth)) * m_plane_size.x + (m_plane_center.x - m_plane_size.x / 2.0);
+  float mapX = ((mousePixel.x - 0) / float(m_pixel_size.x)) * m_plane_size.x + (m_plane_center.x - m_plane_size.x / 2.0);
 
   // calculates the mapping for y-coord
-  float mapY = ((mousePixel.y - m_pixelHeight) / float(0 - m_pixelHeight)) * m_plane_size.y + (m_plane_center.y - m_plane_size.y / 2.0);
+  float mapY = ((mousePixel.y - m_pixel_size.y) / float(0 - m_pixel_size.y)) * m_plane_size.y + (m_plane_center.y - m_plane_size.y / 2.0);
 
   return sf::Vector2f(mapX, mapY);
 }
