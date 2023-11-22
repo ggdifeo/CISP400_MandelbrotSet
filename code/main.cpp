@@ -38,7 +38,7 @@ int main() {
     }
 
     //change the volume here
-    music.setVolume(50);
+    music.setVolume(5);
 
     //plays the music
     music.play();
