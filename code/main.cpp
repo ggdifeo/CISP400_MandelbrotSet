@@ -46,7 +46,7 @@ int main() {
     text.setPosition(10, 10); //Positions text
 
     //boolean for CALCULATING
-    bool CALCULATING = false;
+    bool CALCULATING = true;
 
     while (window.isOpen()) 
     {
@@ -106,6 +106,7 @@ int main() {
 
             CALCULATING = false; // sets state back to DISPLAYING once calculations are done
         }
+
 
         complexPlane.draw(window, RenderStates::Default);
         //may need to be moved up a bracket to run
