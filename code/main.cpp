@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Window/VideoMode.hpp>
-#include <SFML/System/Clock.hpp>
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -17,9 +16,9 @@ using namespace std;
 
 
 int main() {
+
     //grabs the desktop resolution
     VideoMode desktop = VideoMode::getDesktopMode();
-
  
     //Divides the screen's resolution by 2 to scale down the screen
     unsigned int pixelWidth = desktop.width / 2;
@@ -29,6 +28,20 @@ int main() {
     RenderWindow window(VideoMode(pixelWidth, pixelHeight), "Mandlebrot Set", Style::Default);
 
     ComplexPlane complexPlane(pixelWidth, pixelHeight);
+
+    //adds music to the program
+    Music music;
+    if (!music.openFromFile("relaxing.wav"))
+    {
+        cerr << "Error! Could not load music file" << endl;
+        return -1;
+    }
+
+    //change the volume here
+    music.setVolume(50);
+
+    //plays the music
+    music.play();
 
     // Font for Chaos Game
     Font font;
@@ -50,22 +63,11 @@ int main() {
     //boolean for CALCULATING
     bool CALCULATING = true;
 
-    // for wave animation 
-    Clock clock;
-
     while (window.isOpen()) 
     {
-        clock.restart();
-
         Event event;
 
         window.clear();
-
-        // get the time that's elapsed for the animation
-        float time = clock.getElapsedTime().asSeconds();
-
-        // modify the complex plane's parameters on the duration
-        complexPlane.setCenter(Vector2i(pixelWidth / 2 + int(100 * sin(time)), pixelHeight / 2 * int (50 * cos(time))));
 
         while (window.pollEvent(event))
         {
