@@ -41,7 +41,7 @@ int main() {
     Text text;
 
     text.setFont(font);
-    text.setCharacterSize(40); //Sets text size
+    text.setCharacterSize(30); //Sets text size
     text.setFillColor(Color(253, 226, 167)); //Sets text color
     text.setPosition(10, 10); //Positions text
 
@@ -69,14 +69,14 @@ int main() {
 
             if (event.type == Event::MouseButtonPressed)
             {
-                Vector2i mousePixel = Mouse::getPosition(window);
+                Vector2i mousePos = Mouse::getPosition(window);
 
                 if (event.mouseButton.button == Mouse::Right) 
                 {
                     //right click to zoom out
                     //calls the setCenter on the ComplexPlane object from mouse clicked position
                     //sets CALCULATING to true
-                    complexPlane.setCenter(mousePixel.x, mousePixel.y);
+                    complexPlane.setCenter(Vector2i(mousePos.x, mousePos.y));
                     complexPlane.zoomOut();
                     CALCULATING = true;
                 }
@@ -85,7 +85,7 @@ int main() {
                     //left click to zoom in
                     //calls setCenter on the ComplexPlane object from mouse clicked postion
                     //sets CALCULATING to true
-                    complexPlane.setCenter(mousePixel.x, mousePixel.y);
+                    complexPlane.setCenter(Vector2i(mousePos.x, mousePos.y));
                     complexPlane.zoomIn();
                     CALCULATING = true;
                 }
@@ -94,12 +94,10 @@ int main() {
             {
                 //mouse moved event here
                 //calls setMouseLocation on the ComplexPlane object and stores mouse coords
-                complexPlane.setMouseLocation(event.mouseMove.x, event.mouseMove.y);
+                complexPlane.setMouseLocation(Vector2i(event.mouseMove.x, event.mouseMove.y));
             }
 
         }
-        text.setString("Hello World!");
-        window.draw(text);
 
         if (CALCULATING)
         {
@@ -111,8 +109,12 @@ int main() {
 
         //draws the scene segment 
         window.clear();
-        complexPlane.draw(window);
+        complexPlane.draw(window, RenderStates::Default);
         //may need to be moved up a bracket to run
+        window.draw(text);
         window.display();
-        }
+
+    }
+
+    return 0;
 }
